@@ -5,7 +5,7 @@ import { globalCss } from "./style.ts";
 
 const globalStyles = globalCss({
   "*": { margin: 0, padding: 0, boxSizing: "border-box" },
-  body: { fontFamily: "$body", backgroundColor: "$back", color: "$text" },
+  body: { fontFamily: "$free", backgroundColor: "$back", color: "$text" },
 });
 
 createRoot(document.getElementById("root")!).render(

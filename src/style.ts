@@ -20,7 +20,9 @@ export const { styled, css, globalCss, keyframes, theme, config } =
         xlarge: "32px",
       },
       fonts: {
-        body: "monospace",
+        old: "serif",
+        simple: "sans-serif",
+        free: "monospace",
       },
     },
   });

@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { styled } from "../style";
-import { Settings2 } from "lucide-react";
+import { Settings2, X } from "lucide-react";
 
 const EditorContainer = styled("div", {
   position: "relative",
+  width: "100vw",
+  height: "100vh",
+  overflow: "hidden",
 });
 
 const Editor = styled("div", {
@@ -13,13 +16,14 @@ const Editor = styled("div", {
   position: "relative",
   flexDirection: "column",
   padding: "$medium",
-  fontSize: "$large",
+  fontSize: "$medium",
   "&[contenteditable]:focus": {
     outline: "none",
   },
 });
 
-const SettingsLayout = styled("div", {
+const SettingsLayout = styled("button", {
+  all: "unset",
   position: "absolute",
   display: "flex",
   flexDirection: "column",
@@ -34,11 +38,37 @@ const SettingsLayout = styled("div", {
   fontSize: "$small",
   //   border: "1px solid $text",
   borderRadius: "4px",
+  zIndex: 1,
+});
+
+const SettingsMenu = styled("div", {
+  position: "absolute",
+  width: "300px",
+  height: "calc(100dvh - 8px * 2)",
+  backgroundColor: "$baseBack",
+  top: "$small",
+  right: "$small",
+  padding: "$medium",
+  transition: "0.2s ease-out",
+  borderRadius: "8px",
+  "&.hidden": {
+    right: "-400px",
+  },
+  "& div": {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  "& div .x-icon": {
+    cursor: "pointer",
+  },
+  zIndex: 2,
 });
 
 export const EditorComponent = () => {
   const [text, setText] = useState("");
   const divRef = useRef<HTMLDivElement>(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   useEffect(() => {
     if (divRef.current && divRef.current.innerHTML !== text) {
       divRef.current.innerHTML = text;
@@ -74,7 +104,17 @@ export const EditorComponent = () => {
         onInput={handleInput}
         suppressContentEditableWarning={true}
       ></Editor>
-      <SettingsLayout>
+      <SettingsMenu className={isMenuOpen ? "" : "hidden"}>
+        <div>
+          <span>Settings</span>
+          <X
+            className="x-icon"
+            size={16}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          />
+        </div>
+      </SettingsMenu>
+      <SettingsLayout onClick={() => setIsMenuOpen(!isMenuOpen)}>
         <Settings2 size={16} fill="$back" />
       </SettingsLayout>
     </EditorContainer>
