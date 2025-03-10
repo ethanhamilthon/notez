@@ -67,6 +67,12 @@ export const NotesList = () => {
     setEditingId,
   } = useNotes();
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      setEditingId(null);
+    }
+  };
+
   return (
     <ThemeContainer
       css={{
@@ -90,6 +96,8 @@ export const NotesList = () => {
               <NoteTitleInput
                 value={note.title}
                 onChange={(e) => setNoteTitle(e.target.value, note.id)}
+                onKeyDown={handleKeyDown}
+                autoFocus
               />
               <EditButton onClick={() => setEditingId(null)}>
                 <Check size={16} />

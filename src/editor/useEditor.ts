@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useNotes } from "./useNotes";
 
 export const useEditor = () => {
-  const { currentNote, setCurrentNoteContent } = useNotes();
+  const { currentNote, setCurrentNoteContent, addNewNote } = useNotes();
   const divRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -14,6 +14,12 @@ export const useEditor = () => {
 
   const handleInput = () => {
     if (divRef.current) {
+      if (!currentNote) {
+        // Create a new note if none exists
+        addNewNote();
+        setCurrentNoteContent(divRef.current.innerHTML);
+        return;
+      }
       setCurrentNoteContent(divRef.current.innerHTML);
     }
   };
@@ -21,6 +27,17 @@ export const useEditor = () => {
   const handlePaste = (event: React.ClipboardEvent<HTMLDivElement>) => {
     event.preventDefault();
     const text = event.clipboardData?.getData("text/plain");
+
+    if (!currentNote) {
+      // Create a new note if none exists
+      addNewNote();
+      // Need to wait for the next tick for currentNote to be updated
+      setTimeout(() => {
+        document.execCommand("insertText", false, text);
+      }, 0);
+      return;
+    }
+
     document.execCommand("insertText", false, text);
   };
 

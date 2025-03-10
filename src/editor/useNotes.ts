@@ -65,6 +65,7 @@ export const useNotesStore = create<NotesState>()(
           notes: [...notes, newNote],
           currentNote: newNote,
         });
+        return newNote;
       },
 
       setNoteTitle: (title, id) => {
