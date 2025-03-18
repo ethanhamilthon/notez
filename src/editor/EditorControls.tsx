@@ -2,7 +2,7 @@ import { Bold, Heading, Italic, Type } from "lucide-react";
 import { styled } from "../style";
 
 const ControlsContainer = styled("div", {
-  position: "absolute",
+  position: "fixed",
   bottom: "$medium",
   left: "50%",
   display: "flex",
